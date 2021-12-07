@@ -8,11 +8,13 @@ const port=process.env.PORT || 6006;
 var fileup = require("express-fileupload");
 const { defaultMaxListeners } = require("events");
 app.use(fileup());
+
+// mysql://b1b9af79eb9e42:542756b3@us-cdbr-east-04.cleardb.com/heroku_656ad9a20fde205?reconnect=true
 var dbconfig = {
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "projectnodejs"
+    host: "us-cdbr-east-04.cleardb.com",
+    user: "rb1b9af79eb9e42",
+    password: "542756b3",
+    database: "heroku_656ad9a20fde205"
 }
 
 var dbcon = mysql.createConnection(dbconfig);
