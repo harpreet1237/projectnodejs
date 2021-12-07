@@ -4,6 +4,7 @@ var path = require("path");
 var app = express();
 app.use(express.static("public"));
 var mysql = require("mysql");
+const port=process.env.PORT || 6006;
 var fileup = require("express-fileupload");
 const { defaultMaxListeners } = require("events");
 app.use(fileup());
@@ -24,7 +25,7 @@ dbcon.connect(function (err) {
 })
 
 
-app.listen(6006, function () {
+app.listen(port, function () {
     console.log("Server Started");
 })
 
