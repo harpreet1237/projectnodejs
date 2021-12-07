@@ -1,4 +1,4 @@
-const { static, json, response } = require("express");
+const{ static, json, response } = require("express");
 var express = require("express");
 var path = require("path");
 var app = express();
