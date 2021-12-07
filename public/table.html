@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="css/bootstrap.min.css"></script>
+    <script>
+        var module= angular.module("kuchbhiModule",[]);
+        module.controller("kuchController",function($scope,$http){
+            $scope.jsonArray =[];
+           
+
+            $scope.dofetch=function(){
+                $http.get("/fetch-all").then(fxok,fxnok);
+
+                function fxok(response)
+                {
+                    alert(JSON.stringify(response.data));
+                    $scope.jsonArray=response.data; 
+                }
+
+                function fxnok(response)
+                {
+                    alert(response.data);
+                }
+            }
+
+            $scope.doDelete=function(uidkuch){
+                if(confirm("R U sure ? ")==false)return;
+                $http.get("/user-del?email="+uidkuch).then(fxok,fxnok);
+
+                function fxok(response){
+                    alert(response.data);
+                    $scope.dofetch();
+
+                }
+
+                function fxnok(response)
+                {
+                    alert(response.data);
+                }
+            }
+        })
+    </script>
+    <title>Vendor Data</title>
+</head>
+<body ng-app="kuchbhiModule" ng-controller="kuchController">
+   <div class="container">
+       <div class="col-md-8">
+           <div class="row">
+               <div class="col">
+                   <input type="button" value="Show All Records" ng-click="dofetch();">
+                    <br>
+                <table border="1" width="800">
+                    <tr>
+                        <th>
+                            S. No.
+                        </th>
+                        <th>Email ID</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Firm</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Acard</th>
+                        <th>selservices</th>
+                    </tr>
+                    <tr ng-repeat="obj in jsonArray">
+                        <td>{{$index}}</td>
+                        <td>{{obj.email}}</td>
+                        <td>{{obj.name}}</td>
+                        <td>{{obj.contact}}</td>
+                        <td>{{obj.firm}}</td>
+                        <td>{{obj.address}}</td>
+                        <td>{{obj.city}}</td>
+                        <td>{{obj.acard}}</td>
+                        <td>{{obj.selservices}}</td>
+                        <td align="center">
+                            <input type="button" value="Delete" ng-click="doDelete(obj.email);"> 
+                        </td>
+                    </tr>
+                </table>
+               </div>
+           </div>
+       </div>
+   </div>
+</body>
+</html>

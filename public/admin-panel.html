@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script>
+
+        var admin=localStorage.getItem("admin");
+        $(document).ready(function(){
+
+            
+            $("#btnclient").click(function(){
+                window.location.href="/admin-client-section.html";
+            });
+
+            $("#btnvendor").click(function(){
+                window.location.href="/admin-vendor-section.html";
+            })
+            
+            $("#btnuser").click(function(){
+                window.location.href="/admin-user.html";
+            })
+        })
+
+    </script>
+    <title>Admin Panel</title>
+</head>
+<body>
+    <center>
+        <br><br><br>
+        <input type="button" class="btn btn-primary" id="btnclient" value="Client Area" style="margin-left: 200px;">
+        <input type="button" class="btn btn-primary" id="btnuser" value="User Area" style="margin-left: 200px;">
+        <input type="button" class="btn btn-primary" id="btnvendor" value="Vendor Area" style="margin-left:200px;float: left;">
+    </center>
+</body>
+</html>

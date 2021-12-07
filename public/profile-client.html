@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/jquery-1.8.2.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        .form-control {
+            height: 20px;
+            width: 300px;
+        }
+    </style>
+    <script>
+
+        
+        function loadFile(ref) {
+            var image = document.getElementById('prev');
+            // alert("here");
+            image.src = URL.createObjectURL(ref.files[0]);
+        }
+
+    </script>
+    <!-- starting of ajax -->
+    <script>
+        var userid = localStorage.getItem("user");
+        $(".email").val(userid);
+        if(userid==null)
+        {
+            window.location.href="/home";
+        }
+        alert(userid);
+        $(document).ready(
+            function () {
+
+                
+                var url = "/chk-user-in-clienttable?email=" + userid;
+                $.get(url, function (clientarray) {
+                    if (clientarray[0].length != 0) {
+                        $(".uid").val(clientarray[0].uid);
+                        $(".namee").val(clientarray[0].uname);
+                        $(".email").val(clientarray[0].email);
+                        $(".city").val(clientarray[0].city);
+                        $(".address").val(clientarray[0].address);
+                        $(".contact").val(clientarray[0].contact);
+                        $("#prev").attr("src", "/uploads/" + clientarray[0].picpath);
+                    }    
+                })
+                
+
+                $("#btnback").click(function(){
+                    window.location.href="/dash-client.html";
+                })
+                //-----------------------------------------
+
+            }
+        );
+    </script>
+    <!-- end of ajax -->
+    <title>Profile Page</title>
+</head>
+
+<body>
+    <div class="frm">
+        <form method="post" enctype="multipart/form-data">
+            <div class="container col-md-8" style="background-color: cyan;">
+                <center style="color: darkmagenta;font-weight: bolder;font-size: 40px;">
+                    Profile Page
+                </center>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-floating mb-3 mt-5  w-75">
+                            <input type="text" class="form-control uid" style="height: 50px;" name="uid"
+                                id="floatingInput" placeholder="uid">
+                            <label for="floatingInput" style="height: 40px;">User ID</label>
+
+                        </div>
+                        <div class="form-floating mb-3 mt-5">
+                            <input type="text" class="form-control namee  w-75 h-auto" name="name" id="floatingInput"
+                                placeholder="name">
+                            <label for="floatingInput">Name</label>
+                        </div>
+                        <div class="form-floating mb-3 mt-5">
+                            <input type="text" class="form-control email  h-50 w-75" id="" name="email"
+                                placeholder="email">
+                            <label for="floatingInput">Email ID</label>
+                        </div>
+                        <div class="form-floating mb-3 mt-5">
+                            <input type="text" class="form-control address  h-50 w-75" id="floatingInput" name="address"
+                                placeholder="address">
+                            <label for="floatingInput">Address</label>
+                        </div>
+                        <div class="form-floating mb-3 mt-5">
+                            <input type="text" class="form-control contact  h-50 w-75" id="floatingInput" name="contact"
+                                placeholder="contact">
+                            <label for="floatingInput">Contact </label>
+                        </div>
+                    </div>
+                    <div class="col">
+
+                        <img src="/pics/user.png" alt="" id="prev" height="150px" width="150px"
+                            style="margin-bottom:5px;margin-left:70px; margin-top: 70px;">
+                        <input type="file" name="ppic" id="ppic" class="picpath" onchange="loadFile(this);"
+                            style="margin-left: 60px; height: 30px;">
+                        <br><br><br><br><br><br>
+                        <div class="form-floating mb-3 mt-5">
+                            <input type="text" class="form-control city  h-50 w-75" name="city" id="floatingInput"
+                                placeholder="city">
+                            <label for="floatingInput">City</label>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-outline-primary" value="Save" formaction="/profile-client-saving"
+                    style="margin-left: 200px;margin-bottom: 10px;">
+                    <input type="button" class="btn btn-outline-primary" value="Go Back" id="btnback"
+                    style="margin-left: 200px;margin-bottom: 10px;">
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

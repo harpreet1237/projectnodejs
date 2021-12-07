@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+       var userid=localStorage.getItem("user");
+       alert(userid);
+       function chk()
+        {
+            if(userid==null)
+        {
+            window.location.href="/index.html";
+        }
+    }
+       $(document).ready(function(){
+        $("#btnprofile").click(function(){
+            window.location.href="profile-client.html";
+        });
+
+        var url="/chk-user-in-clienttable?email="+userid;
+        $.get(url,function(jsonArray){
+            var ppic=jsonArray[0].picpath;
+        $("#img-user").attr("src","/uploads/"+ppic);
+        })
+       
+        $("#btnchngepwd").click(function(){
+            var oldpwd=$("#oldpwd").val();
+            var newpwd=$("#newpwd").val();
+
+            var url="/change-password?email="+userid+"&oldpwd="+oldpwd+"&newpwd="+newpwd;
+
+            $.get(url,function(validity){
+                if(validity=="ok")
+                {
+                    $("#oldpwdspan").html("Password changed!!");
+                }
+                else 
+                {    
+                    $("oldpwdspan").html("Incorrect Old Password.");
+                }
+            })
+        });
+
+        $("#btnfunction").click(function(){
+            window.location.href="/plan-function";
+        });
+        $("#btnlogout").click(function(){
+            localStorage.removeItem("user");
+            localStorage.removeItem("usertype");
+            alert("logged out ");
+            window.location.href="index.html";
+        });
+        
+       });
+    </script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Dashboard Client</title>
+</head>
+<body onload="chk();">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 mt-5">
+                            <div class="card" style="width: 18rem;">
+                                <img src="pics/user.png" style="height: 200px ; width: 200px;" class="card-img-top" id="img-user" alt="...">
+                                <div class="card-body">
+                                  <h5 class="card-title">Profile</h5>
+                                  <p class="card-text">Go to your profile</p>
+                                 <input type="button" class=" btn btn-primary" value="Go to your profile" id="btnprofile">
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-md-4 mt-5">
+                            <div class="card" style="width: 18rem;">
+                                <img src="pics/setting.png" style="height: 200px ; width: 200px;" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                  <h5 class="card-title">Setttings</h5>
+                                  <p class="card-text">Go to Settings</p>
+                                  <input type="button" class="btn btn-primary" value="Settings"  data-bs-toggle="modal"
+                                  data-bs-target="#settings">
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-md-4 mt-5">
+                            <div class="card" style="width: 18rem;">
+                                <img src="pics/bgfunction.jpg" class="card-img-top" style="height: 200px ; width: 200px;" alt="...">
+                                <div class="card-body">
+                                  <h5 class="card-title">Find your choice</h5>
+                                  <p class="card-text">Plan a function </p>
+                                    <input type="button" class="btn btn-primary" value="Plan a function" id="btnfunction">
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-md-4 mt-5">
+                            <div class="card" style="width: 18rem;">
+                                <img src="pics/logout.jpg" class="card-img-top" style="height: 200px ; width: 200px;" alt="...">
+                                <div class="card-body">
+                                  <h5 class="card-title">Profile</h5>
+                                  <p class="card-text">Log out </p>
+                                    <input type="button" class="btn btn-primary" value="Log Out" id="btnlogout">
+                                </div>
+                              </div>
+                        </div>
+                        
+                    </div>
+                </div>
+               
+                <div class="modal fade" id="settings" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Settings</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- form -->
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label"> Old Password</label>
+                                <input type="password" class="form-control" id="oldpwd"
+                                    placeholder="Old password">
+                                <span id="oldpwdspan"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="newpwd"
+                                    placeholder="password">
+                            </div>
+                           
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" id="btnchngepwd" value="Change">
+                            <button type="button" class="btn btn-primary" id="signupclose"
+                                data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <!-- forms  -->
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</body>
+</html>

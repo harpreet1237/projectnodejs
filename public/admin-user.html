@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script>
+         var module = angular.module("kuchbhiModule", []);
+        module.controller("kuchController", function ($scope, $http) {
+            $scope.doFetchAll = function () {
+                var url="/admin-chk-user";
+                $http.get(url).then(fxOkKuch, fxNotOkKuch);
+                function fxOkKuch(response) {
+                    alert(JSON.stringify(response.data));
+                    $scope.jsonArray = response.data;
+                }
+
+                function fxNotOkKuch(response) {
+                    alert(response.data);
+                }
+            } 
+            
+            $scope.goProfile=function(email,type){
+                localStorage.clear();
+                localStorage.setItem("user",email);
+                if(type=="client")
+                window.location.href="/profile-client";
+                else 
+                window.location.href="/profile-vendor";
+            }
+            $scope.doDelete=function(email,type){
+                var url="/delete-user?email="+email+"&type="+type;
+
+                $http.get(url).then(fxOkKuch,fxNotOkKuch);
+
+                function fxOkKuch(response)
+                {
+                    alert(response);
+                }
+
+                function fxNotOkKuch(response)
+                {
+                    alert(response);
+                }
+            }
+        });
+    </script>
+    <title>User     Details</title>
+</head>
+<body ng-app="kuchbhiModule" ng-controller="kuchController" ng-init="doFetchAll();" style="background-image: url(pics/bgfunction.jpg);">
+    <center>
+        <div class="container col-md-8">
+            <div class="row">
+                <TABLE border="1" width="500" style="margin-top:10px;background-color: darkturquoise;">
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Type</th>
+                    </tr>
+        
+                    <tr ng-repeat="obj in jsonArray">
+                        <td>{{$index}}</td>
+                        <td>{{obj.email}}</td>
+                        <td>{{obj.pwd}}</td>
+                        <td>{{obj.type}}
+                        </td>
+                        <td align="center">
+                            <input type="button" style="margin-bottom: 6px;" value="Profile" class="btn btn-primary" ng-click="goProfile(obj.email,obj.type);">
+                        </td>
+                        <td align="center">
+                            <input type="button" value="delete" style="margin-bottom: 6px;" class="btn btn-primary" ng-click="doDelete(obj.email,obj.type);doFetchAll();">
+                        </td>
+                    </tr>
+        
+                </TABLE>
+            </div>
+        </div>
+    </center>
+</body>
+</html>

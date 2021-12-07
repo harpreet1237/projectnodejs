@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/angular.min.js"></script>
+
+    <script>
+        var module=angular.module("kuchbhiModule",[]);
+        module.controller("kuchController",function($scope){
+            $scope.fn="harpreet";
+            $scope.ln="singh";
+            $scope.full="";
+            $scope.dofun=function()
+            {
+                $scope.full=$scope.fn+" "+$scope.ln;
+            }
+        })
+    </script>
+    <title>Document</title>
+</head>
+<body ng-app="kuchbhiModule" ng-controller="kuchController" >
+    <center>
+        Number:
+        <input ng-blur="dofun();" type="text" name="" ng-model="fn">
+        <br>
+        sec. number 
+        <input type="text" name="" id="" ng-model="ln" ng-change="dofun();">
+
+        <br>
+        <input type="button" value=" angular" ng-click="dofun();">
+        <br>    
+        result:
+        <input type="text" name="" ng-model="full">
+    </center>
+</body>
+</html>

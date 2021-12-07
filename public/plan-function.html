@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script>
+        var module = angular.module("kuchbhiModule", []);
+        module.controller("kuchController", function ($scope, $http) {
+           
+            // $scope.jsonArray = [];
+            //-----------------------
+           
+            //-------------
+            $scope.doFetchAll = function () {
+                var strcity=$("#selCity").val();
+                var strservices=$("#selState option:selected").text();//val()[0].selservices;
+                var url="/fetch-all?city="+strcity+"&services="+strservices;
+                alert(strservices);
+
+                $http.get(url).then(fxOkKuch, fxNotOkKuch);
+                function fxOkKuch(response) {
+                    alert(JSON.stringify(response.data));
+                    $scope.jsonArray = response.data;
+                }
+
+                function fxNotOkKuch(response) {
+                    alert(response.data);
+                }
+            }
+           
+            //====================================
+            $scope.doFetchAllStates = function () {
+                $http.get("/fetch-states").then(fxOkKuch, fxNotOkKuch);
+                function fxOkKuch(response) {
+                    alert(JSON.stringify(response.data));
+                    $scope.jsonArrayStates = response.data;
+                }
+
+                function fxNotOkKuch(response) {
+                    alert(response.data);
+                }
+            }
+            //=====================================
+            //====================================
+            $scope.setCities=[];
+            $scope.doFetchAllCities = function () {
+                $http.get("/fetch-cities").then(fxOkKuch, fxNotOkKuch);
+                function fxOkKuch(response)
+                 {
+                    alert(JSON.stringify(response.data));
+                    $scope.jsonArrayCities = response.data;
+                    var all="";
+                    for(i=0;i<$scope.jsonArrayCities.length;i++)
+                    {
+                        all=all+$scope.jsonArrayCities[i].city+",";
+                    }
+                    all=all.substr(0,all.length-1);
+                    var ary=all.split(",");
+                   // console.log(ary);
+                    var setCity=new Set(ary);
+                    console.log(setCity);
+                   
+                    $scope.setCities=Array.from(setCity);//converted to array
+                    console.log($scope.setCities)
+                }
+
+                function fxNotOkKuch(response) {
+                    alert(response.data);
+                }
+            }
+            //=====================================
+           
+        })
+    </script>
+    <title>Plan a Function</title>
+</head>
+
+<body ng-app="kuchbhiModule" ng-controller="kuchController" ng-init="doFetchAllStates();doFetchAllCities();" style="background-image: url(/pics/bgfunction.jpg );">
+    <div class="container col-md-8" style="background-color: cyan;">
+        <div class="row" style="background-color: cyan;">
+            <h1 style="font-weight: bold;margin-left: 200px; color: cornflowerblue;"> Plan Your Function</h1>
+            <br>
+            <div class="col"
+                style="margin-top: 10px;margin-bottom: 10px; margin-left:40px;color: coral;font-weight: bold;">
+                City:
+                <select name="selCity" style="width:100px;margin-left: 10px;margin-right: 60px;color: blueviolet;"
+                    id="selCity">
+                    <option value="none">Select</option>
+                    <option ng-repeat="st in setCities" value="{{st}}">{{st}}</option>
+                </select>
+
+                Services:
+                <select name="selState" style="width:100px; margin-left: 10px; color: blueviolet;" id="selState">
+                    <option value="none">Select</option>
+                    <option ng-repeat="st in jsonArrayStates" value="{{st}}">{{st.selservices}}</option>
+                </select>
+
+                <input class="btn btn-outline-primary" style="margin-left: 50px;" type="button" value="Find" id="btnfind" ng-click="doFetchAll();">
+                <br>
+            </div>
+            <hr><hr><hr>
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3" ng-repeat="obj in jsonArray">
+                        <div class="card" style="margin-bottom: 7px;">
+                            <img src="uploads/{{obj.proofpath}}" class="card-img-top" height="100px" width="100px" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{obj.name}}</h5>
+                                <p>Email: {{obj.email}}</p>
+                                <p>City: {{obj.city}}</p>
+                                <p>Services: {{obj.selservices}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

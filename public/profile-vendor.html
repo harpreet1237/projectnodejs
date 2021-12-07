@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/js/jquery-1.8.2.min.js"></script>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script>
+
+    function loadFile(ref) {
+      var image = document.getElementById('prevcard');
+      // alert("here");
+      image.src = URL.createObjectURL(ref.files[0]);
+    }
+
+  </script>
+  <!-- starting of ajax -->
+  <script>
+    var userid = localStorage.getItem("user");
+    $(document).ready(
+      function () {
+        $(".email").val(userid);
+        var url = "/chk-vendor-in-table?email=" + userid;
+        $.get(url, function (vendorArray) {
+          if (vendorArray.length != 0) {
+            $(".namee").val(vendorArray[0].name);
+            $(".city").val(vendorArray[0].city);
+            $(".address").val(vendorArray[0].address);
+            $(".contact").val(vendorArray[0].contact);
+            $(".picpath").val(vendorArray[0].picpath);
+            $(".firm").val(vendorArray[0].firm);
+            $(".estd").val(vendorArray[0].estd);
+            $(".acard").val(vendorArray[0].acard);
+            $(".selservices").val(vendorArray[0].selservices);
+            $(".otherinfo").val(vendorArray[0].otherinfo);
+            $("#prevcard").attr("src", "/uploads/" + vendorArray[0].proofpath);
+          }
+        })
+        //-----------------------------------------
+      
+      }
+    );
+  </script>
+  <!-- end of ajax -->
+  <title>Profile Page</title>
+</head>
+
+<body>
+  <div class="frm">
+    <form method="post" enctype="multipart/form-data">
+      <div class="container col-md-8" style="background-color: cyan;">
+        <center style="color: darkmagenta;font-weight: bolder;font-size: 40px;">
+          Profile Page
+        </center>
+        <div class="row">
+          <div class="col">
+            <div class="form-floating mb-3 mt-5">
+              <input type="text" class="form-control email" name="email" id="floatingInput" placeholder="email">
+              <label for="floatingInput">Email</label>
+              <span class="result"></span>
+
+            </div>
+            <div class="form-floating mb-3 mt-5">
+              <input type="text" class="form-control namee" name="name" id="floatingInput" placeholder="name">
+              <label for="floatingInput">Name</label>
+            </div>
+            <div class="form-floating mb-3 mt-5">
+              <input type="text" class="form-control contact" id="floatingInput" name="contact" placeholder="contact">
+              <label for="floatingInput">Contact</label>
+            </div>
+            <div class="form-floating mb-3 mt-5">
+              <input type="text" class="form-control firm" id="floatingInput" name="firm" placeholder="firm">
+              <label for="floatingInput">Firm</label>
+            </div>
+            <div class="form-floating mb-3 mt-5">
+              <input type="text" class="form-control estd" id="floatingInput" name="estd" placeholder="estd">
+              <label for="floatingInput">Estd. </label>
+            </div>
+            <div class="form-floating mb-3 mt-5">
+              <input type="text" class="form-control address" id="floatingInput" name="address" placeholder="address">
+              <label for="floatingInput">Address</label>
+            </div>
+            <div class="form-floating mb-3 mt-5">
+              <input type="text" class="form-control otherinfo" id="floatingInput" name="otherinfo"
+                placeholder="otherinfo">
+              <label for="floatingInput">Other Info</label>
+            </div>
+          </div>
+          <div class="col">
+            <br><br>
+            Upload Proof of identity:
+            <img src="/pics/user.png" alt="" id="prevcard" height="150px" width="150px"
+              style="margin-bottom:2px;margin-left:70px; margin-top: 70px;">
+            <input type="file" name="proofpath" id="proofpath" class="proofpath" onchange="loadFile(this);"
+              style="margin-left: 60px; height: 30px;">
+            <div class="form-floating mb-1 mt-5">
+              <input type="text" class="form-control city" name="city" id="floatingInput" placeholder="city">
+              <label for="floatingInput">City</label>
+
+
+              <div class="form-floating mb-3 mt-5">
+                <input type="text" class="form-control acard" id="floatingInput" name="acard" placeholder="acard">
+                <label for="floatingInput">Adhar Card</label>
+              </div>
+              <div class="form-floating mb-3 mt-5">
+                <input type="text" class="form-control selservices" id="floatingInput" name="selservices"
+                  placeholder="services">
+                <label for="floatingInput">Services</label>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <input type="submit" class="btn btn-outline-primary" value="Save" formaction="/profile-vendor-saving"
+          style="margin-left: 200px;margin-bottom: 10px;">
+       
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>
