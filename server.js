@@ -127,7 +127,7 @@ app.post("/profile-client-saving", (req, resp) => {
             var data = [req.body.uid, req.body.name, req.body.email, req.body.address, req.body.city, req.body.contact, req.body.picname]
             dbcon.query("insert into profileclient values(?,?,?,?,?,?,?)", data, function (err, result) {
                 if (err)
-                    resp.send(req.body + "error");
+                    resp.send(req.body + "errornoticeed");
                 else
                     resp.redirect("/profile-client.html");
             })
