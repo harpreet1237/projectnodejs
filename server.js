@@ -21,7 +21,7 @@ var dbcon = mysql.createConnection(dbconfig);
 
 dbcon.connect(function (err) {
     if (err)
-        console.log(err.message + "dgdfgdfgdsfgdfsgdsfgfd");
+        console.log(err.message + "server connection lost!");
     else
         console.log("Connected....Congrats..");
 })
