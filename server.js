@@ -12,7 +12,7 @@ app.use(fileup());
 // mysql://b1b9af79eb9e42:542756b3@us-cdbr-east-04.cleardb.com/heroku_656ad9a20fde205?reconnect=true
 var dbconfig = {
     host: "us-cdbr-east-04.cleardb.com",
-    user: "rb1b9af79eb9e42",
+    user: "b1b9af79eb9e42",
     password: "542756b3",
     database: "heroku_656ad9a20fde205"
 }
